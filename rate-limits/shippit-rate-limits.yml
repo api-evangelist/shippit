@@ -1,0 +1,42 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Shippit
+providerId: shippit
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Shipping
+- Logistics
+- Rate Limiting
+- Quotas
+description: >-
+  Shippit's Developer Centre navigation references a "Rate limits and latency"
+  topic, but specific numeric per-account or per-endpoint request limits were
+  not published in the pages reviewed. Integrations should assume standard HTTP
+  throttling behavior, honor 429 responses with backoff, and confirm any exact
+  limits with Shippit during onboarding.
+notes: >-
+  No fixed numeric rate limit is confirmed as of the review date. Verify current
+  limits on the Developer Centre "Rate limits and latency" page and via Shippit
+  integration support.
+sources:
+- https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+- https://developer.shippit.com/
+responseCodes:
+  throttled: 429
+limits:
+- name: API Requests
+  scope: account
+  metric: requests
+  limit: not published
+  notes: A "Rate limits and latency" topic exists in the Developer Centre but numeric limits were not found in the reviewed pages.
+policies:
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+- name: Pull Tracking Cadence
+  description: Pull-based tracking against /orders/{tracking_number}/tracking should be polled at a reasonable interval; prefer webhooks for push updates to reduce request volume.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

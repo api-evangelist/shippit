@@ -1,0 +1,143 @@
+{
+  "info": {
+    "name": "Shippit API",
+    "description": "Shippit multi-carrier shipping and fulfillment API (v3). Request carrier quotes, create and cancel orders, book consignments, retrieve labels, and track parcels. Base URL: https://app.shippit.com/api/3 (production) or https://app.staging.shippit.com/api/3 (staging). All requests authenticate with a per-merchant API key as a Bearer token. Request/response bodies below are MODELED from Shippit's developer docs and should be reconciled against the live Developer Centre.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{apiKey}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://app.shippit.com/api/3", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Quote",
+      "item": [
+        {
+          "name": "Request shipping quotes",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quote\": {\n    \"dropoff_suburb\": \"Sydney\",\n    \"dropoff_postcode\": \"2000\",\n    \"dropoff_state\": \"NSW\",\n    \"parcel_attributes\": [\n      { \"qty\": 1, \"weight\": 1.5 }\n    ]\n  }\n}" },
+            "url": { "raw": "{{baseUrl}}/quote", "host": ["{{baseUrl}}"], "path": ["quote"] },
+            "description": "Requests quotes from configured carriers for a delivery location and parcels. MODELED body."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create an order",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"order\": {\n    \"courier_type\": \"standard\",\n    \"delivery_address\": \"123 Example St\",\n    \"delivery_suburb\": \"Sydney\",\n    \"delivery_state\": \"NSW\",\n    \"delivery_postcode\": \"2000\",\n    \"receiver_name\": \"Jane Doe\",\n    \"receiver_contact_number\": \"0400000000\",\n    \"user_attributes\": { \"email\": \"jane@example.com\", \"first_name\": \"Jane\", \"last_name\": \"Doe\" },\n    \"parcel_attributes\": [ { \"qty\": 1, \"weight\": 1.5 } ]\n  }\n}" },
+            "url": { "raw": "{{baseUrl}}/order", "host": ["{{baseUrl}}"], "path": ["order"] },
+            "description": "Submits an order to Shippit. MODELED body."
+          }
+        },
+        {
+          "name": "Retrieve an order",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/orders/:tracking_number", "host": ["{{baseUrl}}"], "path": ["orders", ":tracking_number"], "variable": [{ "key": "tracking_number", "value": "" }] },
+            "description": "Retrieves an order by its Shippit tracking number. MODELED."
+          }
+        },
+        {
+          "name": "Cancel an order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/orders/:tracking_number", "host": ["{{baseUrl}}"], "path": ["orders", ":tracking_number"], "variable": [{ "key": "tracking_number", "value": "" }] },
+            "description": "Cancels an order by its Shippit tracking number. MODELED."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Book",
+      "item": [
+        {
+          "name": "Book orders with carriers",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"orders\": [\n    { \"tracking_number\": \"\" }\n  ]\n}" },
+            "url": { "raw": "{{baseUrl}}/book", "host": ["{{baseUrl}}"], "path": ["book"] },
+            "description": "Initiates a carrier booking for an array of orders. MODELED body."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Label",
+      "item": [
+        {
+          "name": "Retrieve label documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/label/:tracking_number", "host": ["{{baseUrl}}"], "path": ["label", ":tracking_number"], "variable": [{ "key": "tracking_number", "value": "" }] },
+            "description": "Returns a URL to the shipping documents (A6 label, pick slip, ZPL, etc.) for an order. MODELED."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tracking",
+      "item": [
+        {
+          "name": "Track an order (pull)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/orders/:tracking_number/tracking", "host": ["{{baseUrl}}"], "path": ["orders", ":tracking_number", "tracking"], "variable": [{ "key": "tracking_number", "value": "" }] },
+            "description": "Pull-based tracking. Returns current status and history for an order. Path confirmed from Shippit docs; response MODELED."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Merchant",
+      "item": [
+        {
+          "name": "Get merchant settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/merchant", "host": ["{{baseUrl}}"], "path": ["merchant"] },
+            "description": "Returns the current merchant account settings. MODELED."
+          }
+        },
+        {
+          "name": "Update merchant settings",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/merchant", "host": ["{{baseUrl}}"], "path": ["merchant"] },
+            "description": "Updates merchant account settings. MODELED."
+          }
+        },
+        {
+          "name": "Get operating hours",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/merchant/operating-hours", "host": ["{{baseUrl}}"], "path": ["merchant", "operating-hours"] },
+            "description": "Returns the merchant's configured operating hours. MODELED."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Shippit API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{apiKey}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Quote", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Request shipping quotes.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shippit.com/api/3/quote",
+            "body": { "type": "json", "data": "{\n  \"quote\": {\n    \"dropoff_suburb\": \"Sydney\",\n    \"dropoff_postcode\": \"2000\",\n    \"dropoff_state\": \"NSW\",\n    \"parcel_attributes\": [ { \"qty\": 1, \"weight\": 1.5 } ]\n  }\n}" }
+          },
+          "docs": "Requests quotes from configured carriers for a delivery location and parcels. MODELED body."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Orders", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create an order.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shippit.com/api/3/order",
+            "body": { "type": "json", "data": "{\n  \"order\": {\n    \"courier_type\": \"standard\",\n    \"delivery_address\": \"123 Example St\",\n    \"delivery_suburb\": \"Sydney\",\n    \"delivery_state\": \"NSW\",\n    \"delivery_postcode\": \"2000\",\n    \"receiver_name\": \"Jane Doe\",\n    \"parcel_attributes\": [ { \"qty\": 1, \"weight\": 1.5 } ]\n  }\n}" }
+          },
+          "docs": "Submits an order to Shippit. MODELED body."
+        },
+        {
+          "info": { "name": "Retrieve an order.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shippit.com/api/3/orders/:tracking_number",
+            "params": [
+              { "name": "tracking_number", "value": "", "type": "path", "description": "The Shippit tracking number." }
+            ]
+          },
+          "docs": "Retrieves an order by its Shippit tracking number. MODELED."
+        },
+        {
+          "info": { "name": "Cancel an order.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shippit.com/api/3/orders/:tracking_number",
+            "params": [
+              { "name": "tracking_number", "value": "", "type": "path", "description": "The Shippit tracking number." }
+            ]
+          },
+          "docs": "Cancels an order by its Shippit tracking number. MODELED."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Book", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Book orders with carriers.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shippit.com/api/3/book",
+            "body": { "type": "json", "data": "{\n  \"orders\": [ { \"tracking_number\": \"\" } ]\n}" }
+          },
+          "docs": "Initiates a carrier booking for an array of orders. MODELED body."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Label", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Retrieve label documents.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shippit.com/api/3/label/:tracking_number",
+            "params": [
+              { "name": "tracking_number", "value": "", "type": "path", "description": "The Shippit tracking number." }
+            ]
+          },
+          "docs": "Returns a URL to the shipping documents for an order. MODELED."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Tracking", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Track an order (pull).", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shippit.com/api/3/orders/:tracking_number/tracking",
+            "params": [
+              { "name": "tracking_number", "value": "", "type": "path", "description": "The Shippit tracking number." }
+            ]
+          },
+          "docs": "Pull-based tracking. Path confirmed from Shippit docs; response MODELED."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Merchant", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get merchant settings.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shippit.com/api/3/merchant"
+          },
+          "docs": "Returns the current merchant account settings. MODELED."
+        },
+        {
+          "info": { "name": "Update merchant settings.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shippit.com/api/3/merchant",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates merchant account settings. MODELED."
+        },
+        {
+          "info": { "name": "Get operating hours.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shippit.com/api/3/merchant/operating-hours"
+          },
+          "docs": "Returns the merchant's configured operating hours. MODELED."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

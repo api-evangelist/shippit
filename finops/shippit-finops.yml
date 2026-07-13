@@ -1,0 +1,90 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Shippit
+providerId: shippit
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Shipping
+- Logistics
+- Fulfillment
+- SaaS
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Shippit spend. Shippit cost has two main components: a monthly
+  SaaS subscription scaled by order-volume band, and per-delivery carrier
+  charges (advertised "from AUD 1 per delivery ex GST"), plus optional add-ons
+  such as bring-your-own-carrier booking fees and transit protection (a
+  percentage of order retail value). API usage itself is not separately metered;
+  it is included in the subscription. Enterprise agreements carry negotiated
+  rates. Per-unit rates are region-specific and were not reconciled here.
+notes: >-
+  Verify current subscription bands, per-delivery rates, and add-on fees on the
+  Shippit pricing page. Dominant variable cost is per-delivery carrier charges,
+  which scale directly with shipment volume.
+sources:
+- https://www.shippit.com/pricing
+- https://www.shippit.com/products/shipping-api
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Shippit
+serviceCategory: Shipping and Logistics
+billingModel:
+  pricingCategory: Subscription-Plus-Usage
+  billingFrequency: Monthly
+  billingCurrency: AUD
+  chargeCategories:
+  - Purchase
+  - Usage
+  - Adjustment
+focusColumns:
+  ServiceName: Shippit
+  ServiceCategory: Shipping and Logistics
+  ProviderName: Shippit
+  PublisherName: Shippit
+  InvoiceIssuerName: Shippit
+  BillingCurrency: AUD
+  ChargeCategory: Usage
+  PricingCategory: Subscription-Plus-Usage
+meters:
+- name: subscription
+  description: Monthly SaaS subscription scaled by order-volume band.
+  unit: months
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: deliveries
+  description: Per-delivery carrier charges, scaling with shipment volume.
+  unit: deliveries
+  aggregation: sum
+  dimensions:
+  - account
+  - carrier
+- name: transit_protection
+  description: Optional transit protection, charged as a percentage of order retail value.
+  unit: orders
+  aggregation: sum
+  dimensions:
+  - account
+principles:
+- name: Visibility
+  description: Track per-delivery charges by carrier and monthly order volume against the subscribed order band.
+- name: Allocation
+  description: Attribute delivery costs to store/channel/team so shipping spend maps to internal cost centers.
+- name: Optimization
+  description: Use multi-carrier quotes to select cost-effective services, right-size the subscription order band to actual volume, and apply transit protection selectively.
+- name: Accountability
+  description: Review monthly volume against the subscription band and renegotiate enterprise rates as volume grows.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

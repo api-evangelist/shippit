@@ -1,0 +1,125 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Shippit
+providerId: shippit
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Shipping
+- Logistics
+- Fulfillment
+- SaaS
+- Plans
+description: >-
+  Shippit is sold as a SaaS shipping platform with tiered monthly subscriptions
+  scaled by order volume, plus per-delivery carrier charges. The same API is
+  available across plans; API access is a feature of the merchant subscription
+  rather than a separately metered product. Published Australian pricing at the
+  time of review advertised subscription tiers from roughly AUD 149/month (up to
+  ~500 orders) to AUD 999/month (up to ~15,000 orders), with per-delivery
+  charges advertised "from AUD 1 per delivery (ex GST)" and optional add-ons
+  (bring-your-own-carrier bookings, transit protection). Exact current tiers,
+  order bands, and rates are not reconciled here.
+notes: >-
+  Pricing varies by region (AU / NZ / SG) and is subject to change; verify
+  current tiers, order bands, and per-delivery rates on the Shippit pricing page
+  during reconciliation. Enterprise pricing is quote-based.
+sources:
+- https://www.shippit.com/pricing
+- https://www.shippit.com/products/shipping-api
+- https://www.shippit.com/openshippingapi/
+plans:
+- id: shippit-lite
+  name: Lite
+  type: subscription
+  description: >-
+    Entry subscription tier for smaller merchants, with API access, discounted
+    retail carrier rates (advertised up to ~12% off), and optional add-ons such
+    as connecting your own carrier and transit protection.
+  entries:
+  - label: Monthly Subscription
+    name: lite_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: AU
+    unit: 1
+    price: from AUD 149/month (up to ~500 orders; verify current band)
+    userMultiplied: false
+  - label: Per Delivery
+    name: lite_per_delivery
+    type: usage
+    metric: deliveries
+    limit: -1
+    timeFrame: month
+    geo: AU
+    unit: 1
+    price: from AUD 1 per delivery ex GST (carrier-dependent)
+    userMultiplied: false
+  elements:
+  - name: Multi-Carrier Quotes
+  - name: Orders and Booking
+  - name: Labels and Tracking
+  - name: REST API Access
+  - name: Discounted Retail Rates (up to ~12%)
+- id: shippit-grow
+  name: Grow
+  type: subscription
+  description: >-
+    Higher-volume subscription tier with larger monthly order allowances and
+    deeper carrier discounts (advertised up to ~34% off retail rates).
+  entries:
+  - label: Monthly Subscription
+    name: grow_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: AU
+    unit: 1
+    price: tiered AUD 249-999/month by order band (verify current bands)
+    userMultiplied: false
+  - label: Per Delivery
+    name: grow_per_delivery
+    type: usage
+    metric: deliveries
+    limit: -1
+    timeFrame: month
+    geo: AU
+    unit: 1
+    price: from AUD 1 per delivery ex GST (carrier-dependent)
+    userMultiplied: false
+  elements:
+  - name: Everything in Lite
+  - name: Higher Order Volume Bands
+  - name: Discounted Retail Rates (up to ~34%)
+  - name: Transit Protection Add-on
+- id: shippit-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom plan for high-volume retailers and platforms, including the
+    Enterprise Shipping API, negotiated carrier rates, onboarding, and support.
+    Contact Shippit for a quote.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Enterprise Shipping API
+  - name: Negotiated Carrier Rates
+  - name: Onboarding and Support
+  - name: SLAs
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

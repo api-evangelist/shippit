@@ -1,0 +1,531 @@
+openapi: 3.0.3
+info:
+  title: Shippit API
+  description: >-
+    The Shippit API (v3) is the REST interface to Shippit's Australian
+    multi-carrier shipping and fulfillment platform. Merchants use it to request
+    live carrier quotes, create and cancel orders, book consignments with
+    carriers, retrieve shipping labels and pick slips, and track parcels via
+    pull requests or push webhooks.
+
+
+    Base URLs are `https://app.shippit.com/api/3` (production) and
+    `https://app.staging.shippit.com/api/3` (staging sandbox). Every request is
+    authenticated with a per-merchant API key passed as an HTTP Bearer token in
+    the `Authorization` header.
+
+
+    NOTE ON FIDELITY: The base URLs, Bearer authentication, and the pull-based
+    tracking path (`GET /orders/{tracking_number}/tracking`) are grounded in
+    Shippit's published developer documentation. The remaining request and
+    response schemas below are MODELED from Shippit's endpoint descriptions and
+    order-flow guide, not copied field-for-field from an official machine-readable
+    spec. Treat property-level detail as illustrative and reconcile against the
+    live Developer Centre before generating client code.
+  version: '3'
+  contact:
+    name: Shippit Developer Centre
+    url: https://developer.shippit.com/
+  x-fidelity: >-
+    Base URLs, Bearer auth, and the tracking path are confirmed from docs; other
+    request/response schemas are modeled and should be reconciled.
+servers:
+  - url: https://app.shippit.com/api/3
+    description: Production
+  - url: https://app.staging.shippit.com/api/3
+    description: Staging (sandbox)
+security:
+  - bearerAuth: []
+tags:
+  - name: Quote
+    description: Live multi-carrier shipping quotes.
+  - name: Orders
+    description: Create, retrieve, update, and cancel shipping orders.
+  - name: Book
+    description: Initiate carrier bookings for orders.
+  - name: Label
+    description: Retrieve shipping labels and documents for an order.
+  - name: Tracking
+    description: Pull-based order tracking.
+  - name: Merchant
+    description: Merchant account settings, operating hours, and webhooks.
+paths:
+  /quote:
+    post:
+      operationId: createQuote
+      tags:
+        - Quote
+      summary: Request shipping quotes
+      description: >-
+        Requests quotes from the carriers configured on the merchant account for
+        a given delivery location and one or more parcels. Returns priced
+        service options. MODELED request/response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuoteRequest'
+      responses:
+        '200':
+          description: A list of quoted service options.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /order:
+    post:
+      operationId: createOrder
+      tags:
+        - Orders
+      summary: Create an order
+      description: >-
+        Submits an order to Shippit. Requires a delivery location, user details,
+        and parcel details; Shippit allocates the courier and fills the origin
+        from merchant configuration. MODELED request/response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '201':
+          description: The created order, including its tracking number.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /orders/{tracking_number}:
+    parameters:
+      - $ref: '#/components/parameters/TrackingNumber'
+    get:
+      operationId: getOrder
+      tags:
+        - Orders
+      summary: Retrieve an order
+      description: Retrieves an order by its Shippit tracking number. MODELED response.
+      responses:
+        '200':
+          description: The requested order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: cancelOrder
+      tags:
+        - Orders
+      summary: Cancel an order
+      description: Cancels an order by its Shippit tracking number. MODELED response.
+      responses:
+        '200':
+          description: Cancellation confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /orders/{tracking_number}/tracking:
+    parameters:
+      - $ref: '#/components/parameters/TrackingNumber'
+    get:
+      operationId: getOrderTracking
+      tags:
+        - Tracking
+      summary: Track an order (pull)
+      description: >-
+        Pull-based tracking. Returns the current status and tracking history for
+        an order by its tracking number. Path grounded in Shippit tracking docs;
+        response fields MODELED.
+      responses:
+        '200':
+          description: The tracking status and history for the order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackingResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /book:
+    post:
+      operationId: bookOrders
+      tags:
+        - Book
+      summary: Book orders with carriers
+      description: >-
+        Initiates a booking with the respective carriers for an array of orders,
+        producing consignments and enabling label generation. MODELED
+        request/response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookRequest'
+      responses:
+        '200':
+          description: Booking result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /label/{tracking_number}:
+    parameters:
+      - $ref: '#/components/parameters/TrackingNumber'
+    get:
+      operationId: getLabel
+      tags:
+        - Label
+      summary: Retrieve label documents
+      description: >-
+        Returns a URL to the shipping documents for an order - A6 PDF label, A4
+        pick slip, optional ZPL, dangerous goods, and commercial invoice.
+        MODELED response.
+      responses:
+        '200':
+          description: A reference to the label documents.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabelResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /merchant:
+    get:
+      operationId: getMerchant
+      tags:
+        - Merchant
+      summary: Get merchant settings
+      description: Returns the current merchant account settings. MODELED response.
+      responses:
+        '200':
+          description: The merchant settings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Merchant'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: updateMerchant
+      tags:
+        - Merchant
+      summary: Update merchant settings
+      description: Updates merchant account settings. MODELED request/response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Merchant'
+      responses:
+        '200':
+          description: The updated merchant settings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Merchant'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /merchant/operating-hours:
+    get:
+      operationId: getOperatingHours
+      tags:
+        - Merchant
+      summary: Get operating hours
+      description: Returns the merchant's configured operating hours. MODELED response.
+      responses:
+        '200':
+          description: Operating hours.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Per-merchant API key (referred to as the API Secret) passed as
+        `Authorization: Bearer YOUR_API_KEY`. Obtain the key from the Shippit
+        merchant dashboard; use a staging key against the staging base URL.
+  parameters:
+    TrackingNumber:
+      name: tracking_number
+      in: path
+      required: true
+      description: The Shippit tracking number identifying the order.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid Bearer API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+    Address:
+      type: object
+      description: A delivery or origin address. MODELED.
+      properties:
+        address:
+          type: string
+        suburb:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        country_code:
+          type: string
+          default: AU
+    Parcel:
+      type: object
+      description: A single parcel's dimensions and weight. MODELED.
+      properties:
+        qty:
+          type: integer
+          default: 1
+        weight:
+          type: number
+          description: Weight in kilograms.
+        length:
+          type: number
+          description: Length in metres.
+        width:
+          type: number
+          description: Width in metres.
+        depth:
+          type: number
+          description: Depth in metres.
+    QuoteRequest:
+      type: object
+      description: MODELED quote request.
+      required:
+        - quote
+      properties:
+        quote:
+          type: object
+          properties:
+            dropoff_suburb:
+              type: string
+            dropoff_postcode:
+              type: string
+            dropoff_state:
+              type: string
+            parcel_attributes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Parcel'
+    QuoteResponse:
+      type: object
+      description: MODELED quote response.
+      properties:
+        response:
+          type: array
+          items:
+            type: object
+            properties:
+              courier_type:
+                type: string
+              quotes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    service_level:
+                      type: string
+                    price:
+                      type: number
+                    estimated_transit_time:
+                      type: string
+    OrderRequest:
+      type: object
+      description: MODELED order request.
+      required:
+        - order
+      properties:
+        order:
+          type: object
+          properties:
+            courier_type:
+              type: string
+              description: Requested courier or 'standard' to let Shippit allocate.
+            delivery_address:
+              type: string
+            delivery_suburb:
+              type: string
+            delivery_state:
+              type: string
+            delivery_postcode:
+              type: string
+            receiver_name:
+              type: string
+            receiver_contact_number:
+              type: string
+            user_attributes:
+              type: object
+              properties:
+                email:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+            parcel_attributes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Parcel'
+    OrderResponse:
+      type: object
+      description: MODELED order response.
+      properties:
+        response:
+          type: object
+          properties:
+            id:
+              type: string
+            tracking_number:
+              type: string
+            state:
+              type: string
+            courier_type:
+              type: string
+            courier_job_id:
+              type: string
+            tracking_url:
+              type: string
+    BookRequest:
+      type: object
+      description: MODELED booking request - an array of order tracking numbers to book.
+      properties:
+        orders:
+          type: array
+          items:
+            type: object
+            properties:
+              tracking_number:
+                type: string
+    BookResponse:
+      type: object
+      description: MODELED booking response.
+      properties:
+        response:
+          type: object
+          properties:
+            job_id:
+              type: string
+            state:
+              type: string
+            tracking_numbers:
+              type: array
+              items:
+                type: string
+    LabelResponse:
+      type: object
+      description: MODELED label response.
+      properties:
+        response:
+          type: object
+          properties:
+            tracking_number:
+              type: string
+            qualified_url:
+              type: string
+              description: URL to the generated label / documents.
+            label_url:
+              type: string
+    TrackingResponse:
+      type: object
+      description: MODELED tracking response.
+      properties:
+        response:
+          type: object
+          properties:
+            tracking_number:
+              type: string
+            state:
+              type: string
+            tracking:
+              type: array
+              items:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  status_message:
+                    type: string
+                  latitude:
+                    type: number
+                  longitude:
+                    type: number
+                  updated_at:
+                    type: string
+                    format: date-time
+    Merchant:
+      type: object
+      description: MODELED merchant settings.
+      properties:
+        response:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+            billing_address:
+              $ref: '#/components/schemas/Address'
+            webhook_url:
+              type: string

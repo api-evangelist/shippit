@@ -1,0 +1,100 @@
+aid: shippit
+name: Shippit
+review:
+  question: Does Shippit expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-12'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Shippit's public API (v3) is
+    request/response REST over HTTPS. Its only asynchronous surface is
+    outbound webhooks: Shippit POSTs tracking/status updates to a
+    merchant-configured HTTP endpoint. That is server-to-endpoint HTTP, not a
+    WebSocket or SSE stream on Shippit's own API, and there is no documented
+    wss:// endpoint to model. Per current scope, an outbound-webhook-only
+    provider does not warrant an AsyncAPI document.
+findings:
+  summary: |
+    Shippit does not publish a documented public WebSocket API. Shippit is an
+    Australian multi-carrier shipping and fulfillment platform. Its developer
+    API (v3) is REST over HTTPS, with base URLs https://app.shippit.com/api/3
+    (production) and https://app.staging.shippit.com/api/3 (staging sandbox).
+    Authentication is a per-merchant API key passed as an HTTP Bearer token
+    (Authorization: Bearer YOUR_API_KEY). Order tracking is offered two ways:
+    a pull model via GET /orders/{tracking_number}/tracking, and a push model
+    via outbound webhooks that Shippit POSTs to a merchant endpoint. No
+    realtime, bidirectional, or streaming WebSocket (ws:// or wss://) endpoint
+    is documented anywhere in the Developer Centre as of the review date.
+  accessModel: |
+    Access requires a Shippit merchant account. API keys are generated in the
+    merchant dashboard; a staging key works against the staging base URL and a
+    production key against production. There is no open/self-serve public data
+    API - the API operates on the authenticated merchant's own shipments.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://app.shippit.com/api/3
+      documented: true
+      note: Production base URL. Staging sandbox is https://app.staging.shippit.com/api/3.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Push-based tracking/status updates POSTed by Shippit to a merchant-configured HTTP endpoint. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in Shippit's Developer Centre as of the review date.
+  endpointsConfirmed:
+    - note: Confirmed from Shippit developer documentation.
+    - GET https://app.shippit.com/api/3/orders/{tracking_number}/tracking
+    - Named-and-documented (method/path shorthand from the Developer Centre introduction, exact reference paths reconcilable):
+    - POST   /quote (request carrier quotes)
+    - POST   /order (create order); GET/PUT/DELETE order operations
+    - POST   /book (initiate carrier booking)
+    - GET    /label (retrieve label / documents URL)
+    - GET/PUT /merchant (merchant settings) and /merchant/operating-hours
+    - webhook subscription management
+  endpointsModeled:
+    - note: >-
+        The following paths/methods and all request/response SCHEMAS in
+        openapi/shippit-openapi.yml are MODELED from Shippit's endpoint
+        descriptions and order-flow guide, not copied from an official
+        machine-readable spec. Reconcile against the live Developer Centre.
+    - POST   https://app.shippit.com/api/3/quote
+    - POST   https://app.shippit.com/api/3/order
+    - GET    https://app.shippit.com/api/3/orders/{tracking_number}
+    - DELETE https://app.shippit.com/api/3/orders/{tracking_number}
+    - POST   https://app.shippit.com/api/3/book
+    - GET    https://app.shippit.com/api/3/label/{tracking_number}
+    - GET    https://app.shippit.com/api/3/merchant
+    - PUT    https://app.shippit.com/api/3/merchant
+    - GET    https://app.shippit.com/api/3/merchant/operating-hours
+sources:
+  - url: https://developer.shippit.com/
+    type: Documentation
+    note: Developer Centre introduction; lists base URLs, v3, and the main API surfaces (quote, order, book, label, track, merchant, webhooks).
+  - url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+    type: Documentation
+    note: Base URLs (prod + staging), JSON, API version 3; references a rate-limits topic.
+  - url: https://developer.shippit.com/dev_guide/using_apis/authentication.html
+    type: Documentation
+    note: Authentication is Bearer token (Authorization Bearer YOUR_API_KEY / API Secret); no HMAC signing.
+  - url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
+    type: Documentation
+    note: Order flow - quote, create order, retrieve label, book, track.
+  - url: https://developer.shippit.com/dev_guide/tracking/tracking_updates.html
+    type: Documentation
+    note: Pull tracking via /orders/{tracking_number}/tracking and push via webhooks.
+  - url: https://developer.shippit.com/api_guide/webhook.html
+    type: Documentation
+    note: Webhook push-based updates for order tracking and status changes.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Shippit's own public API is
+    request/response REST (base https://app.shippit.com/api/3) with Bearer API
+    key auth, plus outbound webhooks for push tracking. No AsyncAPI document was
+    created because there is no server-push WebSocket/SSE transport on Shippit's
+    own API to model; the only asynchronous delivery is outbound HTTP webhooks.

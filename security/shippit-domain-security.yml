@@ -1,0 +1,28 @@
+generated: '2026-07-12'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + API hosts
+hosts:
+- host: shippit.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 24 07:56:33 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: app.shippit.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb 27 23:59:59 2027 GMT
+  hsts: false
+  note: Root request returns a 301 redirect without an HSTS header; API base is https://app.shippit.com/api/3.
+domains:
+- domain: shippit.com
+  dnssec: false
+  caa:
+  - 'letsencrypt.org'
+  - 'pki.goog; cansignhttpexchanges=yes'
+  - 'amazontrust.com'
+  - 'digicert.com; cansignhttpexchanges=yes'
+  spf: true
+  spf_policy: '-all'
+  dmarc: true
+  dmarc_policy: reject
