@@ -137,6 +137,8 @@ apis:
     and webhook subscriptions, so integrations can read and manage account-level
     configuration programmatically.
 common:
+- type: AgenticAccess
+  url: agentic-access/shippit-agentic-access.yml
 - type: DomainSecurity
   url: security/shippit-domain-security.yml
 - type: Authentication
