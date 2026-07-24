@@ -1,0 +1,141 @@
+openapi: 3.0.3
+info:
+  title: Shippit Book Merchant API
+  description: 'The Shippit API (v3) is the REST interface to Shippit''s Australian multi-carrier shipping and fulfillment platform. Merchants use it to request live carrier quotes, create and cancel orders, book consignments with carriers, retrieve shipping labels and pick slips, and track parcels via pull requests or push webhooks.
+
+
+    Base URLs are `https://app.shippit.com/api/3` (production) and `https://app.staging.shippit.com/api/3` (staging sandbox). Every request is authenticated with a per-merchant API key passed as an HTTP Bearer token in the `Authorization` header.
+
+
+    NOTE ON FIDELITY: The base URLs, Bearer authentication, and the pull-based tracking path (`GET /orders/{tracking_number}/tracking`) are grounded in Shippit''s published developer documentation. The remaining request and response schemas below are MODELED from Shippit''s endpoint descriptions and order-flow guide, not copied field-for-field from an official machine-readable spec. Treat property-level detail as illustrative and reconcile against the live Developer Centre before generating client code.'
+  version: '3'
+  contact:
+    name: Shippit Developer Centre
+    url: https://developer.shippit.com/
+  x-fidelity: Base URLs, Bearer auth, and the tracking path are confirmed from docs; other request/response schemas are modeled and should be reconciled.
+servers:
+- url: https://app.shippit.com/api/3
+  description: Production
+- url: https://app.staging.shippit.com/api/3
+  description: Staging (sandbox)
+security:
+- bearerAuth: []
+tags:
+- name: Merchant
+  description: Merchant account settings, operating hours, and webhooks.
+paths:
+  /merchant:
+    get:
+      operationId: getMerchant
+      tags:
+      - Merchant
+      summary: Get merchant settings
+      description: Returns the current merchant account settings. MODELED response.
+      responses:
+        '200':
+          description: The merchant settings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Merchant'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: updateMerchant
+      tags:
+      - Merchant
+      summary: Update merchant settings
+      description: Updates merchant account settings. MODELED request/response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Merchant'
+      responses:
+        '200':
+          description: The updated merchant settings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Merchant'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /merchant/operating-hours:
+    get:
+      operationId: getOperatingHours
+      tags:
+      - Merchant
+      summary: Get operating hours
+      description: Returns the merchant's configured operating hours. MODELED response.
+      responses:
+        '200':
+          description: Operating hours.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+    Merchant:
+      type: object
+      description: MODELED merchant settings.
+      properties:
+        response:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+            billing_address:
+              $ref: '#/components/schemas/Address'
+            webhook_url:
+              type: string
+    Address:
+      type: object
+      description: A delivery or origin address. MODELED.
+      properties:
+        address:
+          type: string
+        suburb:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        country_code:
+          type: string
+          default: AU
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Per-merchant API key (referred to as the API Secret) passed as `Authorization: Bearer YOUR_API_KEY`. Obtain the key from the Shippit merchant dashboard; use a staging key against the staging base URL.'

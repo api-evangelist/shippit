@@ -1,0 +1,203 @@
+openapi: 3.0.3
+info:
+  title: Shippit Book Orders API
+  description: 'The Shippit API (v3) is the REST interface to Shippit''s Australian multi-carrier shipping and fulfillment platform. Merchants use it to request live carrier quotes, create and cancel orders, book consignments with carriers, retrieve shipping labels and pick slips, and track parcels via pull requests or push webhooks.
+
+
+    Base URLs are `https://app.shippit.com/api/3` (production) and `https://app.staging.shippit.com/api/3` (staging sandbox). Every request is authenticated with a per-merchant API key passed as an HTTP Bearer token in the `Authorization` header.
+
+
+    NOTE ON FIDELITY: The base URLs, Bearer authentication, and the pull-based tracking path (`GET /orders/{tracking_number}/tracking`) are grounded in Shippit''s published developer documentation. The remaining request and response schemas below are MODELED from Shippit''s endpoint descriptions and order-flow guide, not copied field-for-field from an official machine-readable spec. Treat property-level detail as illustrative and reconcile against the live Developer Centre before generating client code.'
+  version: '3'
+  contact:
+    name: Shippit Developer Centre
+    url: https://developer.shippit.com/
+  x-fidelity: Base URLs, Bearer auth, and the tracking path are confirmed from docs; other request/response schemas are modeled and should be reconciled.
+servers:
+- url: https://app.shippit.com/api/3
+  description: Production
+- url: https://app.staging.shippit.com/api/3
+  description: Staging (sandbox)
+security:
+- bearerAuth: []
+tags:
+- name: Orders
+  description: Create, retrieve, update, and cancel shipping orders.
+paths:
+  /order:
+    post:
+      operationId: createOrder
+      tags:
+      - Orders
+      summary: Create an order
+      description: Submits an order to Shippit. Requires a delivery location, user details, and parcel details; Shippit allocates the courier and fills the origin from merchant configuration. MODELED request/response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '201':
+          description: The created order, including its tracking number.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /orders/{tracking_number}:
+    parameters:
+    - $ref: '#/components/parameters/TrackingNumber'
+    get:
+      operationId: getOrder
+      tags:
+      - Orders
+      summary: Retrieve an order
+      description: Retrieves an order by its Shippit tracking number. MODELED response.
+      responses:
+        '200':
+          description: The requested order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: cancelOrder
+      tags:
+      - Orders
+      summary: Cancel an order
+      description: Cancels an order by its Shippit tracking number. MODELED response.
+      responses:
+        '200':
+          description: Cancellation confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    TrackingNumber:
+      name: tracking_number
+      in: path
+      required: true
+      description: The Shippit tracking number identifying the order.
+      schema:
+        type: string
+  schemas:
+    Parcel:
+      type: object
+      description: A single parcel's dimensions and weight. MODELED.
+      properties:
+        qty:
+          type: integer
+          default: 1
+        weight:
+          type: number
+          description: Weight in kilograms.
+        length:
+          type: number
+          description: Length in metres.
+        width:
+          type: number
+          description: Width in metres.
+        depth:
+          type: number
+          description: Depth in metres.
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+    OrderResponse:
+      type: object
+      description: MODELED order response.
+      properties:
+        response:
+          type: object
+          properties:
+            id:
+              type: string
+            tracking_number:
+              type: string
+            state:
+              type: string
+            courier_type:
+              type: string
+            courier_job_id:
+              type: string
+            tracking_url:
+              type: string
+    OrderRequest:
+      type: object
+      description: MODELED order request.
+      required:
+      - order
+      properties:
+        order:
+          type: object
+          properties:
+            courier_type:
+              type: string
+              description: Requested courier or 'standard' to let Shippit allocate.
+            delivery_address:
+              type: string
+            delivery_suburb:
+              type: string
+            delivery_state:
+              type: string
+            delivery_postcode:
+              type: string
+            receiver_name:
+              type: string
+            receiver_contact_number:
+              type: string
+            user_attributes:
+              type: object
+              properties:
+                email:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+            parcel_attributes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Parcel'
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Per-merchant API key (referred to as the API Secret) passed as `Authorization: Bearer YOUR_API_KEY`. Obtain the key from the Shippit merchant dashboard; use a staging key against the staging base URL.'

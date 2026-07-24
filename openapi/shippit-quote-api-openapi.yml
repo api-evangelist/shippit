@@ -1,0 +1,137 @@
+openapi: 3.0.3
+info:
+  title: Shippit Book Quote API
+  description: 'The Shippit API (v3) is the REST interface to Shippit''s Australian multi-carrier shipping and fulfillment platform. Merchants use it to request live carrier quotes, create and cancel orders, book consignments with carriers, retrieve shipping labels and pick slips, and track parcels via pull requests or push webhooks.
+
+
+    Base URLs are `https://app.shippit.com/api/3` (production) and `https://app.staging.shippit.com/api/3` (staging sandbox). Every request is authenticated with a per-merchant API key passed as an HTTP Bearer token in the `Authorization` header.
+
+
+    NOTE ON FIDELITY: The base URLs, Bearer authentication, and the pull-based tracking path (`GET /orders/{tracking_number}/tracking`) are grounded in Shippit''s published developer documentation. The remaining request and response schemas below are MODELED from Shippit''s endpoint descriptions and order-flow guide, not copied field-for-field from an official machine-readable spec. Treat property-level detail as illustrative and reconcile against the live Developer Centre before generating client code.'
+  version: '3'
+  contact:
+    name: Shippit Developer Centre
+    url: https://developer.shippit.com/
+  x-fidelity: Base URLs, Bearer auth, and the tracking path are confirmed from docs; other request/response schemas are modeled and should be reconciled.
+servers:
+- url: https://app.shippit.com/api/3
+  description: Production
+- url: https://app.staging.shippit.com/api/3
+  description: Staging (sandbox)
+security:
+- bearerAuth: []
+tags:
+- name: Quote
+  description: Live multi-carrier shipping quotes.
+paths:
+  /quote:
+    post:
+      operationId: createQuote
+      tags:
+      - Quote
+      summary: Request shipping quotes
+      description: Requests quotes from the carriers configured on the merchant account for a given delivery location and one or more parcels. Returns priced service options. MODELED request/response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuoteRequest'
+      responses:
+        '200':
+          description: A list of quoted service options.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+components:
+  schemas:
+    Parcel:
+      type: object
+      description: A single parcel's dimensions and weight. MODELED.
+      properties:
+        qty:
+          type: integer
+          default: 1
+        weight:
+          type: number
+          description: Weight in kilograms.
+        length:
+          type: number
+          description: Length in metres.
+        width:
+          type: number
+          description: Width in metres.
+        depth:
+          type: number
+          description: Depth in metres.
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+    QuoteResponse:
+      type: object
+      description: MODELED quote response.
+      properties:
+        response:
+          type: array
+          items:
+            type: object
+            properties:
+              courier_type:
+                type: string
+              quotes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    service_level:
+                      type: string
+                    price:
+                      type: number
+                    estimated_transit_time:
+                      type: string
+    QuoteRequest:
+      type: object
+      description: MODELED quote request.
+      required:
+      - quote
+      properties:
+        quote:
+          type: object
+          properties:
+            dropoff_suburb:
+              type: string
+            dropoff_postcode:
+              type: string
+            dropoff_state:
+              type: string
+            parcel_attributes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Parcel'
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Per-merchant API key (referred to as the API Secret) passed as `Authorization: Bearer YOUR_API_KEY`. Obtain the key from the Shippit merchant dashboard; use a staging key against the staging base URL.'
