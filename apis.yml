@@ -9,7 +9,20 @@ description: Shippit is an Australian multi-carrier shipping and fulfillment pla
   pick slips, and track parcels via pull requests or push webhooks. Authentication
   is a per-merchant API key passed as an HTTP Bearer token, with a staging sandbox
   and a production environment.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/shippit.png
 tags:
 - Shipping
 - Logistics
@@ -26,116 +39,150 @@ created: '2026-07-12'
 modified: '2026-07-12'
 specificationVersion: '0.19'
 apis:
-- aid: shippit:shippit-quote-api
-  name: Shippit Quote API
-  tags:
-  - Quotes
-  - Rates
-  - Multi-Carrier
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.shippit.com/
-  baseURL: https://app.shippit.com/api/3
-  properties:
-  - url: https://developer.shippit.com/
-    type: Documentation
-  - url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
-    type: APIReference
-  - url: openapi/shippit-openapi.yml
-    type: OpenAPI
-  description: Request live shipping quotes from the carriers configured on a merchant
-    account. Given a delivery location and one or more parcel attributes, returns
-    priced service options (courier, service level, and price) to present at checkout.
-- aid: shippit:shippit-orders-api
-  name: Shippit Orders API
-  tags:
-  - Orders
-  - Consignments
-  - Fulfillment
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.shippit.com/dev_guide/create_order/order_flow.html
-  baseURL: https://app.shippit.com/api/3
-  properties:
-  - url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
-    type: Documentation
-  - url: https://developer.shippit.com/dev_guide/order_types/order_types.html
-    type: APIReference
-  - url: openapi/shippit-openapi.yml
-    type: OpenAPI
-  description: Create, retrieve, update, and cancel shipping orders. Submitting an
-    order with delivery, user, and parcel details lets Shippit generate the order,
-    allocate a courier, and fill the origin from merchant configuration.
 - aid: shippit:shippit-book-api
   name: Shippit Book API
-  tags:
-  - Booking
-  - Carriers
-  - Manifest
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.shippit.com/dev_guide/create_order/order_flow.html
+  description: Initiate carrier bookings for orders.
+  humanURL: https://developer.shippit.com/
   baseURL: https://app.shippit.com/api/3
+  tags:
+  - Book
   properties:
-  - url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
-    type: Documentation
-  - url: openapi/shippit-openapi.yml
-    type: OpenAPI
-  description: Initiate a booking with the respective carriers for one or more orders.
-    Given an array of orders, this triggers the consignment booking with each order's
-    allocated courier so labels and manifests can be produced.
+  - type: OpenAPI
+    url: openapi/shippit-book-api-openapi.yml
+  - type: Documentation
+    url: https://developer.shippit.com/
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/order_types/order_types.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/tracking/tracking_updates.html
+  - type: APIReference
+    url: https://developer.shippit.com/api_guide/webhook.html
 - aid: shippit:shippit-label-api
   name: Shippit Label API
-  tags:
-  - Labels
-  - Documents
-  - PDF
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  description: Retrieve shipping labels and documents for an order.
+  humanURL: https://developer.shippit.com/
   baseURL: https://app.shippit.com/api/3
-  properties:
-  - url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
-    type: Documentation
-  - url: openapi/shippit-openapi.yml
-    type: OpenAPI
-  description: Return a URL to the shipping documents for an order - A6 PDF shipping
-    labels, A4 PDF pick slips, ZPL where required, plus dangerous goods and commercial
-    invoice documentation.
-- aid: shippit:shippit-tracking-api
-  name: Shippit Tracking API
   tags:
-  - Tracking
-  - Webhooks
-  - Delivery Status
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.shippit.com/dev_guide/tracking/tracking_updates.html
-  baseURL: https://app.shippit.com/api/3
+  - Label
   properties:
-  - url: https://developer.shippit.com/dev_guide/tracking/tracking_updates.html
-    type: Documentation
-  - url: https://developer.shippit.com/api_guide/webhook.html
-    type: APIReference
-  - url: openapi/shippit-openapi.yml
-    type: OpenAPI
-  description: Track an order's delivery status with a pull-based request against the
-    order's tracking number, or subscribe to push-based webhook updates that Shippit
-    posts to your endpoint as a parcel moves through the carrier network.
+  - type: OpenAPI
+    url: openapi/shippit-label-api-openapi.yml
+  - type: Documentation
+    url: https://developer.shippit.com/
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/order_types/order_types.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/tracking/tracking_updates.html
+  - type: APIReference
+    url: https://developer.shippit.com/api_guide/webhook.html
 - aid: shippit:shippit-merchant-api
   name: Shippit Merchant API
+  description: Merchant account settings, operating hours, and webhooks.
+  humanURL: https://developer.shippit.com/
+  baseURL: https://app.shippit.com/api/3
   tags:
   - Merchant
-  - Settings
-  - Configuration
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
-  baseURL: https://app.shippit.com/api/3
   properties:
-  - url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
-    type: Documentation
-  - url: https://developer.shippit.com/api_guide/webhook.html
-    type: APIReference
-  - url: openapi/shippit-openapi.yml
-    type: OpenAPI
-  description: Query and update merchant account settings, including operating hours
-    and webhook subscriptions, so integrations can read and manage account-level
-    configuration programmatically.
+  - type: OpenAPI
+    url: openapi/shippit-merchant-api-openapi.yml
+  - type: Documentation
+    url: https://developer.shippit.com/
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/order_types/order_types.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/tracking/tracking_updates.html
+  - type: APIReference
+    url: https://developer.shippit.com/api_guide/webhook.html
+- aid: shippit:shippit-orders-api
+  name: Shippit Orders API
+  description: Create, retrieve, update, and cancel shipping orders.
+  humanURL: https://developer.shippit.com/
+  baseURL: https://app.shippit.com/api/3
+  tags:
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/shippit-orders-api-openapi.yml
+  - type: Documentation
+    url: https://developer.shippit.com/
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/order_types/order_types.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/tracking/tracking_updates.html
+  - type: APIReference
+    url: https://developer.shippit.com/api_guide/webhook.html
+- aid: shippit:shippit-quote-api
+  name: Shippit Quote API
+  description: Live multi-carrier shipping quotes.
+  humanURL: https://developer.shippit.com/
+  baseURL: https://app.shippit.com/api/3
+  tags:
+  - Quote
+  properties:
+  - type: OpenAPI
+    url: openapi/shippit-quote-api-openapi.yml
+  - type: Documentation
+    url: https://developer.shippit.com/
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/order_types/order_types.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/tracking/tracking_updates.html
+  - type: APIReference
+    url: https://developer.shippit.com/api_guide/webhook.html
+- aid: shippit:shippit-tracking-api
+  name: Shippit Tracking API
+  description: Pull-based order tracking.
+  humanURL: https://developer.shippit.com/
+  baseURL: https://app.shippit.com/api/3
+  tags:
+  - Tracking
+  properties:
+  - type: OpenAPI
+    url: openapi/shippit-tracking-api-openapi.yml
+  - type: Documentation
+    url: https://developer.shippit.com/
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
+  - type: APIReference
+    url: https://developer.shippit.com/dev_guide/order_types/order_types.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
+  - type: Documentation
+    url: https://developer.shippit.com/dev_guide/tracking/tracking_updates.html
+  - type: APIReference
+    url: https://developer.shippit.com/api_guide/webhook.html
 common:
 - type: AgenticAccess
   url: agentic-access/shippit-agentic-access.yml
