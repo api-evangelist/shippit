@@ -1,0 +1,24 @@
+{
+  "provider": "shippit",
+  "sources": [
+    "shippit-book-api-openapi.yml",
+    "shippit-label-api-openapi.yml",
+    "shippit-merchant-api-openapi.yml",
+    "shippit-orders-api-openapi.yml",
+    "shippit-quote-api-openapi.yml",
+    "shippit-tracking-api-openapi.yml"
+  ],
+  "outputs": [
+    "shippit-book-api-openapi.yml",
+    "shippit-label-api-openapi.yml",
+    "shippit-merchant-api-openapi.yml",
+    "shippit-orders-api-openapi.yml",
+    "shippit-quote-api-openapi.yml",
+    "shippit-tracking-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
