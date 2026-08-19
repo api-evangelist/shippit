@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Shippit Book Tracking API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tracking",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Track an order (pull)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shippit.com/api/3/orders/:tracking_number/tracking",
+            "params": [
+              {
+                "name": "tracking_number",
+                "value": "",
+                "type": "path",
+                "description": "The Shippit tracking number identifying the order."
+              }
+            ]
+          },
+          "docs": "Pull-based tracking. Returns the current status and tracking history for an order by its tracking number. Path grounded in Shippit tracking docs; response fields MODELED."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

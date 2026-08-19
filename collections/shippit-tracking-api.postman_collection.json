@@ -1,0 +1,245 @@
+{
+  "item": [
+    {
+      "id": "d851b6ae-15f9-4cf4-8cae-13c29fb70aa9",
+      "name": "Tracking",
+      "description": {
+        "content": "Pull-based order tracking.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d97ee185-3756-430f-8a4d-eb803c7885f0",
+          "name": "Track an order (pull)",
+          "request": {
+            "name": "Track an order (pull)",
+            "description": {
+              "content": "Pull-based tracking. Returns the current status and tracking history for an order by its tracking number. Path grounded in Shippit tracking docs; response fields MODELED.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":tracking_number",
+                "tracking"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tracking_number",
+                  "description": "(Required) The Shippit tracking number identifying the order."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b3bcedf4-ae8d-43d2-9997-1d7ecfa52794",
+              "name": "The tracking status and history for the order.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":tracking_number",
+                    "tracking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tracking_number",
+                      "description": "(Required) The Shippit tracking number identifying the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response\": {\n    \"tracking_number\": \"string\",\n    \"state\": \"string\",\n    \"tracking\": [\n      {\n        \"status\": \"string\",\n        \"status_message\": \"string\",\n        \"latitude\": 9306.828470556005,\n        \"longitude\": 1990.5128210365508,\n        \"updated_at\": \"1961-09-23T06:06:11.316Z\"\n      },\n      {\n        \"status\": \"string\",\n        \"status_message\": \"string\",\n        \"latitude\": 6171.4234875801485,\n        \"longitude\": 3885.0156756476804,\n        \"updated_at\": \"1988-04-01T15:45:56.175Z\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7fc5b1f-904a-4601-8aa4-3396c3d883fa",
+              "name": "Missing or invalid Bearer API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":tracking_number",
+                    "tracking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tracking_number",
+                      "description": "(Required) The Shippit tracking number identifying the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57782907-9bb0-4ab3-a45e-769e4685e273",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":tracking_number",
+                    "tracking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tracking_number",
+                      "description": "(Required) The Shippit tracking number identifying the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.shippit.com/api/3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6bc4821c-28de-40db-a379-456e3f8855d6",
+    "name": "Shippit Book Tracking API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Shippit API (v3) is the REST interface to Shippit's Australian multi-carrier shipping and fulfillment platform. Merchants use it to request live carrier quotes, create and cancel orders, book consignments with carriers, retrieve shipping labels and pick slips, and track parcels via pull requests or push webhooks.\n\nBase URLs are `https://app.shippit.com/api/3` (production) and `https://app.staging.shippit.com/api/3` (staging sandbox). Every request is authenticated with a per-merchant API key passed as an HTTP Bearer token in the `Authorization` header.\n\nNOTE ON FIDELITY: The base URLs, Bearer authentication, and the pull-based tracking path (`GET /orders/{tracking_number}/tracking`) are grounded in Shippit's published developer documentation. The remaining request and response schemas below are MODELED from Shippit's endpoint descriptions and order-flow guide, not copied field-for-field from an official machine-readable spec. Treat property-level detail as illustrative and reconcile against the live Developer Centre before generating client code.\n\nContact Support:\n Name: Shippit Developer Centre",
+      "type": "text/plain"
+    }
+  }
+}

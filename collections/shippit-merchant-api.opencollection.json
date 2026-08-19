@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Shippit Book Merchant API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Merchant",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get merchant settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shippit.com/api/3/merchant"
+          },
+          "docs": "Returns the current merchant account settings. MODELED response."
+        },
+        {
+          "info": {
+            "name": "Update merchant settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shippit.com/api/3/merchant",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates merchant account settings. MODELED request/response."
+        },
+        {
+          "info": {
+            "name": "Get operating hours",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shippit.com/api/3/merchant/operating-hours"
+          },
+          "docs": "Returns the merchant's configured operating hours. MODELED response."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,642 @@
+{
+  "item": [
+    {
+      "id": "7e35b1da-a875-45a5-9613-efcdae423003",
+      "name": "Orders",
+      "description": {
+        "content": "Create, retrieve, update, and cancel shipping orders.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "64799657-eeed-4b48-a5f4-1463fda13ed7",
+          "name": "Create an order",
+          "request": {
+            "name": "Create an order",
+            "description": {
+              "content": "Submits an order to Shippit. Requires a delivery location, user details, and parcel details; Shippit allocates the courier and fills the origin from merchant configuration. MODELED request/response.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "order"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order\": {\n    \"courier_type\": \"<string>\",\n    \"delivery_address\": \"<string>\",\n    \"delivery_suburb\": \"<string>\",\n    \"delivery_state\": \"<string>\",\n    \"delivery_postcode\": \"<string>\",\n    \"receiver_name\": \"<string>\",\n    \"receiver_contact_number\": \"<string>\",\n    \"user_attributes\": {\n      \"email\": \"<string>\",\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\"\n    },\n    \"parcel_attributes\": [\n      {\n        \"qty\": 1,\n        \"weight\": \"<number>\",\n        \"length\": \"<number>\",\n        \"width\": \"<number>\",\n        \"depth\": \"<number>\"\n      },\n      {\n        \"qty\": 1,\n        \"weight\": \"<number>\",\n        \"length\": \"<number>\",\n        \"width\": \"<number>\",\n        \"depth\": \"<number>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "35a98c56-189d-40a9-920f-df1368b088c6",
+              "name": "The created order, including its tracking number.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"order\": {\n    \"courier_type\": \"<string>\",\n    \"delivery_address\": \"<string>\",\n    \"delivery_suburb\": \"<string>\",\n    \"delivery_state\": \"<string>\",\n    \"delivery_postcode\": \"<string>\",\n    \"receiver_name\": \"<string>\",\n    \"receiver_contact_number\": \"<string>\",\n    \"user_attributes\": {\n      \"email\": \"<string>\",\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\"\n    },\n    \"parcel_attributes\": [\n      {\n        \"qty\": 1,\n        \"weight\": \"<number>\",\n        \"length\": \"<number>\",\n        \"width\": \"<number>\",\n        \"depth\": \"<number>\"\n      },\n      {\n        \"qty\": 1,\n        \"weight\": \"<number>\",\n        \"length\": \"<number>\",\n        \"width\": \"<number>\",\n        \"depth\": \"<number>\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response\": {\n    \"id\": \"string\",\n    \"tracking_number\": \"string\",\n    \"state\": \"string\",\n    \"courier_type\": \"string\",\n    \"courier_job_id\": \"string\",\n    \"tracking_url\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c5e4f89-885b-4c98-b318-b0251dd445bd",
+              "name": "Missing or invalid Bearer API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"order\": {\n    \"courier_type\": \"<string>\",\n    \"delivery_address\": \"<string>\",\n    \"delivery_suburb\": \"<string>\",\n    \"delivery_state\": \"<string>\",\n    \"delivery_postcode\": \"<string>\",\n    \"receiver_name\": \"<string>\",\n    \"receiver_contact_number\": \"<string>\",\n    \"user_attributes\": {\n      \"email\": \"<string>\",\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\"\n    },\n    \"parcel_attributes\": [\n      {\n        \"qty\": 1,\n        \"weight\": \"<number>\",\n        \"length\": \"<number>\",\n        \"width\": \"<number>\",\n        \"depth\": \"<number>\"\n      },\n      {\n        \"qty\": 1,\n        \"weight\": \"<number>\",\n        \"length\": \"<number>\",\n        \"width\": \"<number>\",\n        \"depth\": \"<number>\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d3a26c3-2978-4f09-9f42-dcd4ecd3c673",
+              "name": "The request payload failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"order\": {\n    \"courier_type\": \"<string>\",\n    \"delivery_address\": \"<string>\",\n    \"delivery_suburb\": \"<string>\",\n    \"delivery_state\": \"<string>\",\n    \"delivery_postcode\": \"<string>\",\n    \"receiver_name\": \"<string>\",\n    \"receiver_contact_number\": \"<string>\",\n    \"user_attributes\": {\n      \"email\": \"<string>\",\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\"\n    },\n    \"parcel_attributes\": [\n      {\n        \"qty\": 1,\n        \"weight\": \"<number>\",\n        \"length\": \"<number>\",\n        \"width\": \"<number>\",\n        \"depth\": \"<number>\"\n      },\n      {\n        \"qty\": 1,\n        \"weight\": \"<number>\",\n        \"length\": \"<number>\",\n        \"width\": \"<number>\",\n        \"depth\": \"<number>\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "92737fc5-a89f-4bff-9667-1838b905e708",
+          "name": "Retrieve an order",
+          "request": {
+            "name": "Retrieve an order",
+            "description": {
+              "content": "Retrieves an order by its Shippit tracking number. MODELED response.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":tracking_number"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tracking_number",
+                  "description": "(Required) The Shippit tracking number identifying the order."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "55fc119e-4d86-4cd0-aff2-b550b18b0058",
+              "name": "The requested order.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":tracking_number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tracking_number",
+                      "description": "(Required) The Shippit tracking number identifying the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response\": {\n    \"id\": \"string\",\n    \"tracking_number\": \"string\",\n    \"state\": \"string\",\n    \"courier_type\": \"string\",\n    \"courier_job_id\": \"string\",\n    \"tracking_url\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49714be9-7538-4bdd-ac08-a410f2abbe5d",
+              "name": "Missing or invalid Bearer API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":tracking_number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tracking_number",
+                      "description": "(Required) The Shippit tracking number identifying the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8efa937d-41bd-4e25-9f12-0c140c228565",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":tracking_number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tracking_number",
+                      "description": "(Required) The Shippit tracking number identifying the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3945d41a-23b6-493f-b733-3977cc15f0dc",
+          "name": "Cancel an order",
+          "request": {
+            "name": "Cancel an order",
+            "description": {
+              "content": "Cancels an order by its Shippit tracking number. MODELED response.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":tracking_number"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tracking_number",
+                  "description": "(Required) The Shippit tracking number identifying the order."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e3c0574a-2909-4d9b-a9b9-7d97c640bf7e",
+              "name": "Cancellation confirmation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":tracking_number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tracking_number",
+                      "description": "(Required) The Shippit tracking number identifying the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response\": {\n    \"id\": \"string\",\n    \"tracking_number\": \"string\",\n    \"state\": \"string\",\n    \"courier_type\": \"string\",\n    \"courier_job_id\": \"string\",\n    \"tracking_url\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ef8e9f25-b0e0-4b85-aa6c-1678a708f457",
+              "name": "Missing or invalid Bearer API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":tracking_number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tracking_number",
+                      "description": "(Required) The Shippit tracking number identifying the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3334f32-91d6-4a9f-917c-bcb443b0bc76",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":tracking_number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tracking_number",
+                      "description": "(Required) The Shippit tracking number identifying the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.shippit.com/api/3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5da2470d-638f-4296-b0dd-cd1ca7b73536",
+    "name": "Shippit Book Orders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Shippit API (v3) is the REST interface to Shippit's Australian multi-carrier shipping and fulfillment platform. Merchants use it to request live carrier quotes, create and cancel orders, book consignments with carriers, retrieve shipping labels and pick slips, and track parcels via pull requests or push webhooks.\n\nBase URLs are `https://app.shippit.com/api/3` (production) and `https://app.staging.shippit.com/api/3` (staging sandbox). Every request is authenticated with a per-merchant API key passed as an HTTP Bearer token in the `Authorization` header.\n\nNOTE ON FIDELITY: The base URLs, Bearer authentication, and the pull-based tracking path (`GET /orders/{tracking_number}/tracking`) are grounded in Shippit's published developer documentation. The remaining request and response schemas below are MODELED from Shippit's endpoint descriptions and order-flow guide, not copied field-for-field from an official machine-readable spec. Treat property-level detail as illustrative and reconcile against the live Developer Centre before generating client code.\n\nContact Support:\n Name: Shippit Developer Centre",
+      "type": "text/plain"
+    }
+  }
+}

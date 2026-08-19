@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Shippit Book Label API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Label",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve label documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shippit.com/api/3/label/:tracking_number",
+            "params": [
+              {
+                "name": "tracking_number",
+                "value": "",
+                "type": "path",
+                "description": "The Shippit tracking number identifying the order."
+              }
+            ]
+          },
+          "docs": "Returns a URL to the shipping documents for an order - A6 PDF label, A4 pick slip, optional ZPL, dangerous goods, and commercial invoice. MODELED response."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

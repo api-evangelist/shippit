@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Shippit Book API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Book",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Book orders with carriers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shippit.com/api/3/book",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates a booking with the respective carriers for an array of orders, producing consignments and enabling label generation. MODELED request/response."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

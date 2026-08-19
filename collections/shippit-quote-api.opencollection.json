@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Shippit Book Quote API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Quote",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Request shipping quotes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shippit.com/api/3/quote",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Requests quotes from the carriers configured on the merchant account for a given delivery location and one or more parcels. Returns priced service options. MODELED request/response."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

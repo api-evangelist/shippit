@@ -1,0 +1,77 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Shippit Book Orders API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shippit.com/api/3/order",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits an order to Shippit. Requires a delivery location, user details, and parcel details; Shippit allocates the courier and fills the origin from merchant configuration. MODELED request/response."
+        },
+        {
+          "info": {
+            "name": "Retrieve an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shippit.com/api/3/orders/:tracking_number",
+            "params": [
+              {
+                "name": "tracking_number",
+                "value": "",
+                "type": "path",
+                "description": "The Shippit tracking number identifying the order."
+              }
+            ]
+          },
+          "docs": "Retrieves an order by its Shippit tracking number. MODELED response."
+        },
+        {
+          "info": {
+            "name": "Cancel an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shippit.com/api/3/orders/:tracking_number",
+            "params": [
+              {
+                "name": "tracking_number",
+                "value": "",
+                "type": "path",
+                "description": "The Shippit tracking number identifying the order."
+              }
+            ]
+          },
+          "docs": "Cancels an order by its Shippit tracking number. MODELED response."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
