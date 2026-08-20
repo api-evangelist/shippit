@@ -34,6 +34,18 @@ tags:
 - Tracking
 - Parcels
 - E-commerce Logistics
+- Software-as-a-Service
+tags_raw:
+- Shipping
+- Logistics
+- Fulfillment
+- Australia
+- APAC
+- Multi-Carrier
+- Labels
+- Tracking
+- Parcels
+- E-commerce Logistics
 - SaaS
 created: '2026-07-12'
 modified: '2026-07-12'
@@ -117,6 +129,8 @@ apis:
   humanURL: https://developer.shippit.com/
   baseURL: https://app.shippit.com/api/3
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -141,6 +155,8 @@ apis:
   humanURL: https://developer.shippit.com/
   baseURL: https://app.shippit.com/api/3
   tags:
+  - Quotes
+  tags_raw:
   - Quote
   properties:
   - type: OpenAPI
