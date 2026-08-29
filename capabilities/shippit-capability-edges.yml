@@ -1,0 +1,34 @@
+slug: shippit
+provider: Shippit
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Transportation & Logistics
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Tracking
+  spec_file: shippit-tracking-api-openapi.yml
+  capability_id: BC-2510.20
+  capability_id_l1: BC-2510
+  capability_name: Shipment Tracking Management
+  confidence: 0.9
+  evidence: GET /orders/{tracking_number}/tracking getOrderTracking "Track an order (pull)"; schema TrackingResponse
+  reason: Resolution and delivery of parcel status to the merchant is shipment tracking; unambiguous given
+    the tracking_number path and TrackingResponse schema.
+- tag: Quote
+  spec_file: shippit-quote-api-openapi.yml
+  capability_id: BC-2450.10
+  capability_id_l1: BC-2450
+  capability_name: Shipper Quotation Management
+  confidence: 0.7
+  evidence: 'POST /quote createQuote "Request shipping quotes"; vendor: "request live carrier quotes";
+    schemas QuoteRequest, QuoteResponse'
+  reason: The operation takes a shipper's parcel details and returns rates across multiple carriers —
+    receipt of a shipper quotation request and issuance of rates across carriers.

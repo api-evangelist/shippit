@@ -212,6 +212,9 @@ apis:
   - type: APIReference
     url: https://developer.shippit.com/api_guide/webhook.html
 common:
+- type: CapabilityMap
+  url: capabilities/shippit-capability-edges.yml
+  name: Shippit Business Capability Map
 - type: AgenticAccess
   url: agentic-access/shippit-agentic-access.yml
 - type: DomainSecurity
