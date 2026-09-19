@@ -41,11 +41,11 @@ tags:
 - Logistics
 - Fulfillment
 - Australia
-- APAC
+- Asia Pacific
 - Multi-Carrier
 - Labels
 - Tracking
-- Parcels
+- Parcel
 - E-commerce Logistics
 - Software-as-a-Service
 tags_raw:
@@ -118,6 +118,8 @@ apis:
   humanURL: https://developer.shippit.com/
   baseURL: https://app.shippit.com/api/3
   tags:
+  - Merchants
+  tags_raw:
   - Merchant
   properties:
   - type: OpenAPI
