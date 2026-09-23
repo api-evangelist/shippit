@@ -1,13 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Shippit Book Quote API
-  description: 'The Shippit API (v3) is the REST interface to Shippit''s Australian multi-carrier shipping and fulfillment platform. Merchants use it to request live carrier quotes, create and cancel orders, book consignments with carriers, retrieve shipping labels and pick slips, and track parcels via pull requests or push webhooks.
-
-
-    Base URLs are `https://app.shippit.com/api/3` (production) and `https://app.staging.shippit.com/api/3` (staging sandbox). Every request is authenticated with a per-merchant API key passed as an HTTP Bearer token in the `Authorization` header.
-
-
-    NOTE ON FIDELITY: The base URLs, Bearer authentication, and the pull-based tracking path (`GET /orders/{tracking_number}/tracking`) are grounded in Shippit''s published developer documentation. The remaining request and response schemas below are MODELED from Shippit''s endpoint descriptions and order-flow guide, not copied field-for-field from an official machine-readable spec. Treat property-level detail as illustrative and reconcile against the live Developer Centre before generating client code.'
+  title: Shippit Quote API
+  description: The Shippit API (v3) is the REST interface to Shippit's Australian multi-carrier shipping and fulfillment platform.
   version: '3'
   contact:
     name: Shippit Developer Centre
@@ -49,6 +43,19 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid Bearer API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Parcel:
       type: object
@@ -69,6 +76,25 @@ components:
         depth:
           type: number
           description: Depth in metres.
+    QuoteRequest:
+      type: object
+      description: MODELED quote request.
+      required:
+      - quote
+      properties:
+        quote:
+          type: object
+          properties:
+            dropoff_suburb:
+              type: string
+            dropoff_postcode:
+              type: string
+            dropoff_state:
+              type: string
+            parcel_attributes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Parcel'
     Error:
       type: object
       properties:
@@ -98,38 +124,6 @@ components:
                       type: number
                     estimated_transit_time:
                       type: string
-    QuoteRequest:
-      type: object
-      description: MODELED quote request.
-      required:
-      - quote
-      properties:
-        quote:
-          type: object
-          properties:
-            dropoff_suburb:
-              type: string
-            dropoff_postcode:
-              type: string
-            dropoff_state:
-              type: string
-            parcel_attributes:
-              type: array
-              items:
-                $ref: '#/components/schemas/Parcel'
-  responses:
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,12 +1,7 @@
 {
   "provider": "shippit",
   "sources": [
-    "shippit-book-api-openapi.yml",
-    "shippit-label-api-openapi.yml",
-    "shippit-merchant-api-openapi.yml",
-    "shippit-orders-api-openapi.yml",
-    "shippit-quote-api-openapi.yml",
-    "shippit-tracking-api-openapi.yml"
+    "_original/shippit-openapi.yml"
   ],
   "outputs": [
     "shippit-book-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "shippit-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "shippit-book-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "shippit-label-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "shippit-merchant-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "shippit-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "shippit-quote-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "shippit-tracking-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
