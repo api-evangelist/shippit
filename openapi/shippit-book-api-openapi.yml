@@ -43,18 +43,27 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    BookRequest:
+    Error:
       type: object
-      description: MODELED booking request - an array of order tracking numbers to book.
       properties:
-        orders:
-          type: array
-          items:
-            type: object
-            properties:
-              tracking_number:
-                type: string
+        error:
+          type: string
+        error_description:
+          type: string
     BookResponse:
       type: object
       description: MODELED booking response.
@@ -70,26 +79,17 @@ components:
               type: array
               items:
                 type: string
-    Error:
+    BookRequest:
       type: object
+      description: MODELED booking request - an array of order tracking numbers to book.
       properties:
-        error:
-          type: string
-        error_description:
-          type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid Bearer API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        orders:
+          type: array
+          items:
+            type: object
+            properties:
+              tracking_number:
+                type: string
   securitySchemes:
     bearerAuth:
       type: http
