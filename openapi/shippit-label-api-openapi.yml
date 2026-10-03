@@ -40,6 +40,13 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
     LabelResponse:
       type: object
       description: MODELED label response.
@@ -54,13 +61,6 @@ components:
               description: URL to the generated label / documents.
             label_url:
               type: string
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
   responses:
     NotFound:
       description: The requested resource was not found.

@@ -44,25 +44,13 @@ paths:
           $ref: '#/components/responses/ValidationError'
 components:
   schemas:
-    QuoteRequest:
+    Error:
       type: object
-      description: MODELED quote request.
-      required:
-      - quote
       properties:
-        quote:
-          type: object
-          properties:
-            dropoff_suburb:
-              type: string
-            dropoff_postcode:
-              type: string
-            dropoff_state:
-              type: string
-            parcel_attributes:
-              type: array
-              items:
-                $ref: '#/components/schemas/Parcel'
+        error:
+          type: string
+        error_description:
+          type: string
     Parcel:
       type: object
       description: A single parcel's dimensions and weight. MODELED.
@@ -82,13 +70,6 @@ components:
         depth:
           type: number
           description: Depth in metres.
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
     QuoteResponse:
       type: object
       description: MODELED quote response.
@@ -111,15 +92,34 @@ components:
                       type: number
                     estimated_transit_time:
                       type: string
+    QuoteRequest:
+      type: object
+      description: MODELED quote request.
+      required:
+      - quote
+      properties:
+        quote:
+          type: object
+          properties:
+            dropoff_suburb:
+              type: string
+            dropoff_postcode:
+              type: string
+            dropoff_state:
+              type: string
+            parcel_attributes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Parcel'
   responses:
-    Unauthorized:
-      description: Missing or invalid Bearer API key.
+    ValidationError:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing or invalid Bearer API key.
       content:
         application/json:
           schema:

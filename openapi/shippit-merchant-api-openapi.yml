@@ -76,21 +76,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Address:
+    Error:
       type: object
-      description: A delivery or origin address. MODELED.
       properties:
-        address:
+        error:
           type: string
-        suburb:
+        error_description:
           type: string
-        state:
-          type: string
-        postcode:
-          type: string
-        country_code:
-          type: string
-          default: AU
     Merchant:
       type: object
       description: MODELED merchant settings.
@@ -108,13 +100,21 @@ components:
               $ref: '#/components/schemas/Address'
             webhook_url:
               type: string
-    Error:
+    Address:
       type: object
+      description: A delivery or origin address. MODELED.
       properties:
-        error:
+        address:
           type: string
-        error_description:
+        suburb:
           type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        country_code:
+          type: string
+          default: AU
   responses:
     ValidationError:
       description: The request payload failed validation.
