@@ -43,33 +43,20 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-    Parcel:
-      type: object
-      description: A single parcel's dimensions and weight. MODELED.
-      properties:
-        qty:
-          type: integer
-          default: 1
-        weight:
-          type: number
-          description: Weight in kilograms.
-        length:
-          type: number
-          description: Length in metres.
-        width:
-          type: number
-          description: Width in metres.
-        depth:
-          type: number
-          description: Depth in metres.
     QuoteResponse:
       type: object
       description: MODELED quote response.
@@ -92,6 +79,13 @@ components:
                       type: number
                     estimated_transit_time:
                       type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
     QuoteRequest:
       type: object
       description: MODELED quote request.
@@ -111,19 +105,25 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Parcel'
-  responses:
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Parcel:
+      type: object
+      description: A single parcel's dimensions and weight. MODELED.
+      properties:
+        qty:
+          type: integer
+          default: 1
+        weight:
+          type: number
+          description: Weight in kilograms.
+        length:
+          type: number
+          description: Length in metres.
+        width:
+          type: number
+          description: Width in metres.
+        depth:
+          type: number
+          description: Depth in metres.
   securitySchemes:
     bearerAuth:
       type: http
