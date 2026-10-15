@@ -10,6 +10,25 @@ edges:
   detected_by: detect-carrier-edges.py
   first_seen: '2026-10-13'
   matched_by: domain:shippit.com
+- partner_name: Shopify (own)
+  partner: shopify
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://apps.shopify.com/shippit-connect
+  mirror_of: shopify/integrations/shopify-integration-edges.yml
+  apps:
+  - Shippit
+  listing_count: 1
+  detected: '2026-10-15'
+  detected_by: mirror-platform-listings.py
 generated: '2026-10-12'
 method: searched
-checked: []
+checked:
+- shopify/integrations/shopify-integration-edges.yml
+source:
+- shopify/integrations/shopify-integration-edges.yml
