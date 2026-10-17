@@ -75,35 +75,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Address:
-      type: object
-      description: A delivery or origin address. MODELED.
-      properties:
-        address:
-          type: string
-        suburb:
-          type: string
-        state:
-          type: string
-        postcode:
-          type: string
-        country_code:
-          type: string
-          default: AU
     Merchant:
       type: object
       description: MODELED merchant settings.
@@ -128,6 +100,34 @@ components:
           type: string
         error_description:
           type: string
+    Address:
+      type: object
+      description: A delivery or origin address. MODELED.
+      properties:
+        address:
+          type: string
+        suburb:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        country_code:
+          type: string
+          default: AU
+  responses:
+    Unauthorized:
+      description: Missing or invalid Bearer API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
