@@ -1,3 +1,19 @@
+generated: '2026-10-20'
+method: searched
+source:
+- shopify/integrations/shopify-integration-edges.yml
+- https://zapier.com/apps/shippit/integrations
+- https://n8n.io/integrations/shippit/
+- https://composio.dev/toolkits/shippit
+- https://monid.ai/tools/shippit
+checked:
+- shopify/integrations/shopify-integration-edges.yml
+- https://composio.dev/toolkits/shippit
+- https://monid.ai/tools/shippit
+- https://n8n.io/integrations/shippit/
+- https://zapier.com/apps/shippit/integrations
+summary: null
+marketplace_apps: []
 edges:
 - partner_name: 17track
   partner: 17track
@@ -26,9 +42,4 @@ edges:
   listing_count: 1
   detected: '2026-10-15'
   detected_by: mirror-platform-listings.py
-generated: '2026-10-12'
-method: searched
-checked:
-- shopify/integrations/shopify-integration-edges.yml
-source:
-- shopify/integrations/shopify-integration-edges.yml
+templates: []
