@@ -26,3 +26,16 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: shippit-bigcommerce-own
+  label: BigCommerce (own)
+  partner: bigcommerce
+  partner_name: BigCommerce (own)
+  category: Shipping & Fulfillment, Shipping Optimization
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.bigcommerce.com/apps/shippit/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
