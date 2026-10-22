@@ -2,13 +2,7 @@ aid: shippit
 url: https://raw.githubusercontent.com/api-evangelist/shippit/refs/heads/main/apis.yml
 name: Shippit
 kind: company
-description: Shippit is an Australian multi-carrier shipping and fulfillment platform
-  for retailers and e-commerce merchants across Australia, New Zealand, and Southeast
-  Asia. Its REST API (v3) lets merchants request live carrier quotes, create and
-  cancel orders, book consignments with carriers, retrieve A6 shipping labels and
-  pick slips, and track parcels via pull requests or push webhooks. Authentication
-  is a per-merchant API key passed as an HTTP Bearer token, with a staging sandbox
-  and a production environment.
+description: Shippit is an Australian multi-carrier shipping and fulfillment platform for retailers and e-commerce merchants across Australia, New Zealand, and Southeast Asia. Its REST API (v3) lets merchants request live carrier quotes, create and cancel orders, book consignments with carriers, retrieve A6 shipping labels and pick slips, and track parcels via pull requests or push webhooks. Authentication is a per-merchant API key passed as an HTTP Bearer token, with a staging sandbox and a production environment.
 deliveryModel:
   model: saas
   open_source: false
@@ -61,7 +55,7 @@ tags_raw:
 - E-commerce Logistics
 - SaaS
 created: '2026-07-12'
-modified: '2026-10-06'
+modified: '2026-10-21'
 specificationVersion: '0.23'
 apis:
 - aid: shippit:shippit-book-api
@@ -76,8 +70,6 @@ apis:
     url: openapi/shippit-book-api-openapi.yml
   - type: Documentation
     url: https://developer.shippit.com/
-  - type: APIReference
-    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
   - type: Documentation
     url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
   - type: APIReference
@@ -100,8 +92,6 @@ apis:
     url: openapi/shippit-label-api-openapi.yml
   - type: Documentation
     url: https://developer.shippit.com/
-  - type: APIReference
-    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
   - type: Documentation
     url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
   - type: APIReference
@@ -126,8 +116,6 @@ apis:
     url: openapi/shippit-merchant-api-openapi.yml
   - type: Documentation
     url: https://developer.shippit.com/
-  - type: APIReference
-    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
   - type: Documentation
     url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
   - type: APIReference
@@ -152,8 +140,6 @@ apis:
     url: openapi/shippit-orders-api-openapi.yml
   - type: Documentation
     url: https://developer.shippit.com/
-  - type: APIReference
-    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
   - type: Documentation
     url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
   - type: APIReference
@@ -178,8 +164,6 @@ apis:
     url: openapi/shippit-quote-api-openapi.yml
   - type: Documentation
     url: https://developer.shippit.com/
-  - type: APIReference
-    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
   - type: Documentation
     url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
   - type: APIReference
@@ -202,8 +186,6 @@ apis:
     url: openapi/shippit-tracking-api-openapi.yml
   - type: Documentation
     url: https://developer.shippit.com/
-  - type: APIReference
-    url: https://developer.shippit.com/dev_guide/using_apis/using_apis.html
   - type: Documentation
     url: https://developer.shippit.com/dev_guide/create_order/order_flow.html
   - type: APIReference
@@ -215,6 +197,8 @@ apis:
   - type: APIReference
     url: https://developer.shippit.com/api_guide/webhook.html
 common:
+- type: VulnerabilityDisclosure
+  url: security/shippit-vulnerability-disclosure.yml
 - url: https://www.shippit.com/resources/blog
   type: Blog
 - type: CapabilityMap
@@ -238,6 +222,45 @@ common:
   url: rate-limits/shippit-rate-limits.yml
 - type: FinOps
   url: finops/shippit-finops.yml
+- type: DeveloperPortal
+  url: https://developer.shippit.com/
+- type: APIReference
+  url: https://developer.shippit.com/api_guide/intro.html
+- type: GettingStarted
+  url: https://support.shippit.com/en-US/shippit/article/3Yl9qnmY-get-started-with-shippit-apis
+- type: ChangeLog
+  url: https://developer.shippit.com/changelog/introduction.html
+- type: StatusPage
+  url: https://status.shippit.com/
+- type: Support
+  url: https://support.shippit.com/
+- type: Pricing
+  url: https://www.shippit.com/pricing
+- type: SignUp
+  url: https://app.shippit.com/signup
+- type: Login
+  url: https://app.shippit.com/login
+- type: TermsOfService
+  url: https://www.shippit.com/terms
+- type: PrivacyPolicy
+  url: https://www.shippit.com/privacy-policy
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-coverage:
+  state: covered
+  reason: identity-verified
+  detail: Website www.shippit.com (200, names Shippit); link pointers taken from preflight site_links found on www.shippit.com and developer.shippit.com, docs pages re-fetched 200 on 2026-10-21. github.com/shippit exists but has 0 public repos and no site link, so not recorded.
+  evidence:
+  - url: https://www.shippit.com
+    status: 200
+  - url: https://developer.shippit.com/
+    status: 200
+  - url: https://developer.shippit.com/api_guide/intro.html
+    status: 200
+  - url: https://developer.shippit.com/changelog/introduction.html
+    status: 200
+  - url: https://support.shippit.com/en-US/shippit/article/3Yl9qnmY-get-started-with-shippit-apis
+    status: 200
+  - url: https://www.linkedin.com/company/shippit
+    status: 200
